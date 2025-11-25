@@ -213,7 +213,7 @@ function renderActiveNote() {
 
   if (!note) {
     if (titleInput) titleInput.value = "";
-    if (contentInput) contentInput.value = "";
+    if (contentInput) contentInput.innerHTML = "";
     if (tagsContainer) tagsContainer.innerHTML = "";
     return;
   }
@@ -543,23 +543,53 @@ function importNotesFromFile(file) {
       // Not JSON, fall through to text parsing
     }
 
-    // Try custom plain-text format
+    // Try custom multi-note plain-text backup format
     const parsedTextNotes = parseNotesFromTextFormat(text);
-    if (!parsedTextNotes.length) {
-      alert("Import failed: file is not valid JSON or supported text format.");
+    if (parsedTextNotes.length) {
+      notes = parsedTextNotes.map((n) =>
+        createNote({
+          title: n.title,
+          content: n.content,
+          tags: n.tags,
+          createdAt: n.createdAt,
+          updatedAt: n.updatedAt,
+        })
+      );
+      activeNoteId = notes[0] ? notes[0].id : null;
+      persistNotes();
+      renderNotesList();
+      renderActiveNote();
       return;
     }
 
-    notes = parsedTextNotes.map((n) =>
-      createNote({
-        title: n.title,
-        content: n.content,
-        tags: n.tags,
-        createdAt: n.createdAt,
-        updatedAt: n.updatedAt,
-      })
-    );
-    activeNoteId = notes[0] ? notes[0].id : null;
+    // Fallback: treat as a single plain-text note
+    const trimmed = text.trim();
+    if (!trimmed) {
+      alert("Import failed: file is empty.");
+      return;
+    }
+
+    const baseTitle =
+      (file && typeof file.name === "string" && file.name.replace(/\.[^.]+$/, "")) ||
+      "Imported note";
+    const firstLine = trimmed.split(/\r?\n/)[0].trim();
+    const title = firstLine || baseTitle;
+
+    // Escape HTML and preserve line breaks
+    const safeContent = trimmed
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\r?\n/g, "<br>");
+
+    const newNote = createNote({
+      title,
+      content: safeContent,
+      tags: [],
+    });
+
+    notes.unshift(newNote);
+    activeNoteId = newNote.id;
     persistNotes();
     renderNotesList();
     renderActiveNote();
