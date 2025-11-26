@@ -213,7 +213,7 @@ function renderActiveNote() {
 
   if (!note) {
     if (titleInput) titleInput.value = "";
-    if (contentInput) contentInput.innerHTML = "";
+    if (contentInput) contentInput.value = "";
     if (tagsContainer) tagsContainer.innerHTML = "";
     return;
   }
@@ -283,14 +283,24 @@ function handleSaveNote() {
   const contentInput = $("#content");
   note.title = titleInput ? titleInput.value.trim() : "";
   note.content = contentInput ? contentInput.innerHTML : "";
-  note.tags = readTagsFromUI();
+
+  // Read tags from the UI; if none set, fall back to the active filter
+  let tagsFromUi = readTagsFromUI();
+  const activeFilter = getActiveFilter();
+  if ((!tagsFromUi || !tagsFromUi.length) && activeFilter && activeFilter !== "all") {
+    tagsFromUi = [activeFilter];
+  }
+  note.tags = tagsFromUi;
+
   note.updatedAt = new Date().toISOString();
   persistNotes();
   renderNotesList();
 }
 
 function handleNewNote() {
-  const newNote = createNote();
+  const activeFilter = getActiveFilter();
+  const initialTags = activeFilter && activeFilter !== "all" ? [activeFilter] : [];
+  const newNote = createNote({ tags: initialTags });
   notes.unshift(newNote);
   activeNoteId = newNote.id;
   persistNotes();
@@ -543,53 +553,23 @@ function importNotesFromFile(file) {
       // Not JSON, fall through to text parsing
     }
 
-    // Try custom multi-note plain-text backup format
+    // Try custom plain-text format
     const parsedTextNotes = parseNotesFromTextFormat(text);
-    if (parsedTextNotes.length) {
-      notes = parsedTextNotes.map((n) =>
-        createNote({
-          title: n.title,
-          content: n.content,
-          tags: n.tags,
-          createdAt: n.createdAt,
-          updatedAt: n.updatedAt,
-        })
-      );
-      activeNoteId = notes[0] ? notes[0].id : null;
-      persistNotes();
-      renderNotesList();
-      renderActiveNote();
+    if (!parsedTextNotes.length) {
+      alert("Import failed: file is not valid JSON or supported text format.");
       return;
     }
 
-    // Fallback: treat as a single plain-text note
-    const trimmed = text.trim();
-    if (!trimmed) {
-      alert("Import failed: file is empty.");
-      return;
-    }
-
-    const baseTitle =
-      (file && typeof file.name === "string" && file.name.replace(/\.[^.]+$/, "")) ||
-      "Imported note";
-    const firstLine = trimmed.split(/\r?\n/)[0].trim();
-    const title = firstLine || baseTitle;
-
-    // Escape HTML and preserve line breaks
-    const safeContent = trimmed
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/\r?\n/g, "<br>");
-
-    const newNote = createNote({
-      title,
-      content: safeContent,
-      tags: [],
-    });
-
-    notes.unshift(newNote);
-    activeNoteId = newNote.id;
+    notes = parsedTextNotes.map((n) =>
+      createNote({
+        title: n.title,
+        content: n.content,
+        tags: n.tags,
+        createdAt: n.createdAt,
+        updatedAt: n.updatedAt,
+      })
+    );
+    activeNoteId = notes[0] ? notes[0].id : null;
     persistNotes();
     renderNotesList();
     renderActiveNote();
