@@ -4,11 +4,11 @@ const $ = (selector) => document.querySelector(selector);
 
 export function wireAuthButtons(state, callbacks) {
   $("#login")?.addEventListener("click", () => {
-    window.location.href = "./signup.html";
+    window.location.href = "./HTML/signup.html";
   });
 
   $("#signup")?.addEventListener("click", () => {
-    window.location.href = "./signup.html";
+    window.location.href = "./HTML/signup.html";
   });
 
   $("#logout")?.addEventListener("click", () => {
@@ -19,6 +19,6 @@ export function wireAuthButtons(state, callbacks) {
     callbacks.updateUserDisplay();
     callbacks.renderNotesList();
     callbacks.renderActiveNote();
-    window.location.href = "./signup.html";
+    window.location.href = "./HTML/signup.html";
   });
 }

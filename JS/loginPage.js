@@ -31,7 +31,7 @@ export function initLoginForm({
     setActiveUser(account.username);
     setMessage("Success! Redirecting…", "success");
     setTimeout(() => {
-      window.location.href = "./index.html";
+      window.location.href = "../index.html";
     }, 400);
   });
 }
