@@ -112,3 +112,25 @@ Connects UI events like button clicks, key inputs, note selection, etc., to func
 
 Utilities
 Provides reusable helper functions used throughout the app.
+
+----
+
+How Each Section of the UI Works
+
+Side Navigation Panel
+Shows folders and quick operations for accessing stored notes.
+
+Notes List Panel
+Displays titles of all saved notes for quick selection.
+
+Editor Panel
+Opens the selected note for reading or editing.
+
+Toolbar
+Provides formatting options (Bold, Italic, Underline, etc.).
+
+Search Bar
+Filters notes in real-time as the user types.
+
+Add Note / Delete / Save Buttons
+Manages CRUD operations on notes with single-click convenience.
