@@ -85,7 +85,7 @@ export function wireUploadButtons() {
       } else {
         figure.classList.add("note-image-size-medium");
       }
-    }
+    }//check this
 
     // Handle table clicks - right-click to delete
     if (target instanceof HTMLTableElement || target.closest("table.note-table")) {

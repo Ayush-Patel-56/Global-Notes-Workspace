@@ -11,7 +11,7 @@ export function createNote(partial = {}) {
     createdAt: partial.createdAt || now,
     updatedAt: partial.updatedAt || now,
   };
-}
+}//check this
 
 export function createFolder(name) {
   return {

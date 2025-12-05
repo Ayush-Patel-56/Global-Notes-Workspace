@@ -41,28 +41,74 @@ Because they lack a central location to store, arrange, and conveniently retriev
 ## 📁 Project Structure
 
 ├── CSS
-│   ├── index.css         # Styles for main index page
-│   ├── signup.css        # Styles for signup page
-│   └── styles.css        # Shared/global styles
+│   ├── index.css         
+│   ├── signup.css       
+│   └── styles.css        
 ├── HTML
-│   └── signup.html       # Signup / registration page
+│   └── signup.html       
 ├── JS
-│   ├── authButtons.js        # Handles login/logout/auth-related buttons
-│   ├── authPage.js           # Authorization and access control logic
-│   ├── constants.js          # Constant keys, prefixes, reusable values
-│   ├── eventHandlers.js      # Centralised DOM event handlers
-│   ├── exportImport.js       # Import/export notes (JSON)
-│   ├── filterSearchSort.js   # Search, filter and sort functionality
-│   ├── folderManager.js      # Folder / grouping logic for notes
-│   ├── formattingToolbar.js  # Text formatting toolbar controls
-│   ├── loginPage.js          # Login page functionality & validation
-│   ├── mediaManager.js       # Media handling inside notes
-│   ├── noteManager.js        # Core CRUD operations for notes
-│   ├── noteOperations.js     # High-level note operations & coordination
-│   ├── notesApp.js           # App entry point – wires everything together
-│   ├── renderer.js           # Rendering notes and UI updates
-│   ├── storage.js            # LocalStorage + JSON persistence logic
-│   ├── themeManager.js       # Theme switching logic
-│   └── utilities.js          # Helper / utility functions
-├── index.html             # Main application entry page
+│   ├── authButtons.js        
+│   ├── authPage.js           
+│   ├── constants.js         
+│   ├── eventHandlers.js      
+│   ├── exportImport.js       
+│   ├── filterSearchSort.js  
+│   ├── folderManager.js      
+│   ├── formattingToolbar.js  
+│   ├── loginPage.js          
+│   ├── mediaManager.js      
+│   ├── noteManager.js        
+│   ├── noteOperations.js     
+│   ├── notesApp.js       
+│   ├── renderer.js         
+│   ├── storage.js            
+│   ├── themeManager.js       
+│   └── utilities.js          
+├── index.html            
 └── LICENSE                # Project license
+
+----
+
+Component-wise Feature Explanation
+
+Login / Signup Page
+Allows users to sign in to access their notes workspace. Handles basic validation and authorization before entering the app.
+
+Notes Workspace
+Main dashboard where users can create, view, edit, delete, and manage notes.
+
+Note Editor
+Provides typing area and formatting toolbar for writing rich notes with styling options.
+
+Search & Filter System
+Allows users to quickly search notes by text, tags, or sorting options.
+
+Folders Manager
+Enables grouping notes into folders for organized categorization.
+
+Tags Feature
+Users can assign tags to notes for better filtering and quick organization.
+
+Import / Export Notes
+Export notes as a JSON file and import them back when needed, enabling backups.
+
+Media Manager
+Allows users to attach files or images inside notes if required.
+
+Theme Manager
+Switches between different UI themes (e.g., light/dark mode).
+
+LocalStorage-based Persistence
+Ensures notes are saved permanently even after page refresh or closing browser.
+
+Renderer Component
+Updates UI dynamically whenever a note or folder changes.
+
+Storage Component
+Converts notes to JSON and stores/retrieves from LocalStorage.
+
+Event Handlers System
+Connects UI events like button clicks, key inputs, note selection, etc., to functional logic.
+
+Utilities
+Provides reusable helper functions used throughout the app.

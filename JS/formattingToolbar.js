@@ -15,7 +15,7 @@ export function insertHtmlAtCursor(html) {
   range.deleteContents();
   const fragment = range.createContextualFragment(html);
   range.insertNode(fragment);
-}
+}//check this
 
 export function wireFormattingToolbar() {
   const contentEl = $("#content");

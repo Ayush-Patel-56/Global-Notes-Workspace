@@ -51,4 +51,4 @@ export function escapeHtml(str = "") {
         return ch;
     }
   });
-}
+}//check this
