@@ -1,10 +1,11 @@
 import { getTagColor, escapeHtml, formatDate } from "./utilities.js";
 import { applyFilterSearchAndSort } from "./filterSearchSort.js";
-import { getFolders } from "./folderManager.js";
+//import { getFolders } from "./folderManager.js";
 
 const $ = (selector) => document.querySelector(selector);
 const $all = (selector) => Array.from(document.querySelectorAll(selector));
 
+// Renders the list of notes in the sidebar, filtered by folder and search criteria
 export function renderNotesList(notes, activeNoteId, setActiveNote, activeFolderId) {
   const listEl = $("#notes-list");
   if (!listEl) return;
@@ -34,7 +35,7 @@ export function renderNotesList(notes, activeNoteId, setActiveNote, activeFolder
     const li = document.createElement("li");
     li.className = "note-item" + (note.id === activeNoteId ? " active" : "");
     li.dataset.id = note.id;
-    li.dataset.tags = (note.tags || []).join(", ");
+    li.dataset.tags = (note.tags || []).join(", ");//check this
 
     const btn = document.createElement("button");
     btn.className = "note-card";
@@ -77,6 +78,7 @@ export function renderNotesList(notes, activeNoteId, setActiveNote, activeFolder
   });
 }
 
+// Displays the currently selected note in the main editor area
 export function renderActiveNote(note, removeTagFromActiveNote) {
   const titleInput = $("#title");
   const contentInput = $("#content");
@@ -103,13 +105,14 @@ export function renderActiveNote(note, removeTagFromActiveNote) {
       chip.addEventListener("click", () => removeTagFromActiveNote(tag));
       tagsContainer.appendChild(chip);
     });
-  }
+  }//check this
 
   $all(".notes-list .note-item").forEach((li) => {
     li.classList.toggle("active", li.dataset.id === note.id);
   });
 }
 
+// Updates the UI to show/hide user information and auth buttons
 export function updateUserDisplay(activeUser) {
   const pill = $("#user-pill");
   const nameEl = $("#user-name");
@@ -137,6 +140,7 @@ export function updateUserDisplay(activeUser) {
  * @param {string} activeFolderId - Currently selected folder ID
  * @param {Function} setActiveFolder - Callback to set active folder
  */
+// Renders the folders list in the sidebar with the currently active folder highlighted
 export function renderFolders(folders, activeFolderId, setActiveFolder) {
   const foldersEl = $("#folders-list");
   if (!foldersEl) return;

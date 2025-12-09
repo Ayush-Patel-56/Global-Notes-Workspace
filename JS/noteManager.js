@@ -1,5 +1,6 @@
 import { setNotes, getNotes as getStoredNotes } from "./storage.js";
 
+// Creates a new note object with default values and a unique ID
 export function createNote(partial = {}) {
   const now = new Date().toISOString();
   return {
@@ -13,6 +14,7 @@ export function createNote(partial = {}) {
   };
 }//check this
 
+// Creates a new folder object with a unique ID and current timestamp
 export function createFolder(name) {
   return {
     id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
@@ -21,10 +23,12 @@ export function createFolder(name) {
   };
 }
 
+// Saves the notes array to storage for the specified user
 export function persistNotes(activeUser, notes) {
   setNotes(activeUser, notes);
 }
 
+// Ensures there's at least one note by creating a welcome note if none exist
 export async function ensureAtLeastOneNote(notes, activeUser) {
   if (!notes.length) {
     // Create welcome note as default
@@ -40,6 +44,7 @@ export async function ensureAtLeastOneNote(notes, activeUser) {
   return notes;
 }
 
+// Retrieves all notes for the currently active user
 export function loadNotesForCurrentUser(activeUser) {
   return getStoredNotes(activeUser);
 }

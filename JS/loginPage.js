@@ -1,5 +1,6 @@
 import { getAccounts, setActiveUser, migrateGuestNotesIfEmpty } from "./storage.js";
 
+// Initializes the login form with validation and user authentication logic
 export function initLoginForm({
   formId = "login-form",
   setMessage = () => {},

@@ -21,6 +21,7 @@ const state = {
   activeFolderId: null, // null means "All Notes"
 };
 
+// Sets the currently active note and updates the UI to reflect the change
 function setActiveNote(noteId) {
   state.activeNoteId = noteId;
   const note = state.notes.find((n) => n.id === noteId);
@@ -29,17 +30,25 @@ function setActiveNote(noteId) {
 }
 
 const callbacks = {
+  // Callback to set the active note and update UI
   setActiveNote,
+  // Sets the active folder and refreshes the folders and notes list
   setActiveFolder: (folderId) => {
     state.activeFolderId = folderId;
     callbacks.renderFolders();
     callbacks.renderNotesList();
   },
+  // Renders the list of notes in the sidebar
   renderNotesList: () => renderNotesList(state.notes, state.activeNoteId, setActiveNote, state.activeFolderId),
+  // Renders the currently active note in the main editor
   renderActiveNote: () => renderActiveNote(state.notes.find((n) => n.id === state.activeNoteId), () => { }),
+  // Renders the folders list in the sidebar
   renderFolders: () => renderFolders(state.folders, state.activeFolderId, callbacks.setActiveFolder),
+  // Updates the UI to show the current user's information
   updateUserDisplay: () => updateUserDisplay(state.activeUser),
+  // Saves all notes to storage
   persistNotes: () => persistNotes(state.activeUser, state.notes),
+  // Loads notes and folders for the current user, ensuring at least one note exists
   loadNotesForCurrentUser: async () => {
     state.notes = loadNotesForCurrentUser(state.activeUser);
     state.folders = getFolders(state.activeUser);
@@ -50,6 +59,7 @@ const callbacks = {
   },
 };
 
+// Initializes the application by setting up state, loading data, and wiring up event handlers
 async function initApp() {
   // Load user session
   state.activeUser = getActiveUser();

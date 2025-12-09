@@ -7,12 +7,14 @@ function initAuthPage() {
   const switchButtons = document.querySelectorAll(".switch-btn");
   const messageEl = document.getElementById("auth-message");
 
+  // Displays a message to the user with optional type (info/error/success)
   const setMessage = (text, type = "info") => {
     if (!messageEl) return;
     messageEl.textContent = text;
     messageEl.className = `auth-message ${type}`;
   };
 
+  // Toggles between login and signup forms
   const toggleView = (view) => {
     document.querySelectorAll(".auth-form").forEach((form) => {
       const isTarget = form.dataset.view === view;
@@ -30,12 +32,14 @@ function initAuthPage() {
     btn.addEventListener("click", () => toggleView(btn.dataset.view));
   });
 
+  // Initialize the login form with necessary callbacks
   initLoginForm({
     formId: "login-form",
     setMessage,
     toggleView,
   });
 
+  // Handle signup form submission
   signupForm?.addEventListener("submit", (e) => {
     e.preventDefault();
     const username = document.getElementById("new-username").value.trim();

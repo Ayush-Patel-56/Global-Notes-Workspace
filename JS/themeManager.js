@@ -2,6 +2,7 @@ import { THEME_KEY } from "./constants.js";
 
 const DEFAULT_THEME = "dark";
 
+// Retrieves the user's preferred theme from localStorage or returns the default dark theme
 export function getStoredTheme() {
   try {
     return localStorage.getItem(THEME_KEY) || DEFAULT_THEME;
@@ -10,6 +11,7 @@ export function getStoredTheme() {
   }
 }
 
+// Applies the specified theme to the UI by updating the data-theme attribute and toggle button
 export function applyTheme(theme) {
   const normalized = theme === "light" ? "light" : "dark";
   const bodyEl = document.body;
@@ -30,6 +32,7 @@ export function applyTheme(theme) {
   }
 }
 
+// Saves the user's theme preference to localStorage and applies it
 export function persistTheme(theme) {
   try {
     localStorage.setItem(THEME_KEY, theme);
@@ -39,6 +42,7 @@ export function persistTheme(theme) {
   applyTheme(theme);
 }
 
+// Sets up the theme toggle button and initializes the theme based on user preference
 export function wireThemeToggle() {
   const toggleBtn = document.querySelector("#theme-toggle");
   if (!toggleBtn) {

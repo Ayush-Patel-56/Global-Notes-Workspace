@@ -16,6 +16,7 @@ import {
 const $ = (selector) => document.querySelector(selector);
 const $all = (selector) => Array.from(document.querySelectorAll(selector));
 
+// Sets up event listeners for filter chips, search input, and date filter
 export function wireFiltersAndSearch(callbacks) {
   $all(".filters .chip").forEach((chip) => {
     chip.addEventListener("click", () => {
@@ -43,11 +44,13 @@ export function wireFiltersAndSearch(callbacks) {
   });
 }
 
+// Handles the sort dropdown functionality for notes list
 export function wireSort(callbacks) {
   const select = $("#sort");
   select?.addEventListener("change", () => callbacks.renderNotesList());
 }
 
+// Manages tag input field for adding new tags to the active note
 export function wireTagInput(state, callbacks) {
   const addTagInput = $("#add-tag");
   if (!addTagInput) return;
@@ -65,6 +68,7 @@ export function wireTagInput(state, callbacks) {
   });
 }
 
+// Connects all CRUD (Create, Read, Update, Delete) buttons to their respective handlers
 export function wireCrudButtons(state, getActiveFilter, callbacks) {
   $("#new-note")?.addEventListener("click", () => {
     handleNewNote(state.notes, state.activeUser, getActiveFilter, getSelectedDate, callbacks, state.activeFolderId);
@@ -83,6 +87,7 @@ export function wireCrudButtons(state, getActiveFilter, callbacks) {
   });
 }
 
+// Handles folder-related operations: create, rename, and delete folders
 export function wireFolderButtons(state, callbacks) {
   const createFolderBtn = $("#create-folder");
   const foldersListEl = $("#folders-list");
@@ -143,6 +148,7 @@ export function wireFolderButtons(state, callbacks) {
   }
 }
 
+// Moves a note to a specified folder and updates its timestamp
 export function moveNoteToFolder(noteId, folderId, notes) {
   const note = notes.find((n) => n.id === noteId);
   if (note) {

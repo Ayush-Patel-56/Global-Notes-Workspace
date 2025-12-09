@@ -3,6 +3,7 @@ import { insertHtmlAtCursor } from "./formattingToolbar.js";
 
 const $ = (selector) => document.querySelector(selector);
 
+// Sets up event handlers for media insertion including images and tables
 export function wireUploadButtons() {
   const contentEl = $("#content");
   if (!contentEl) return;

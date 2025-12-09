@@ -1,5 +1,6 @@
 const $ = (selector) => document.querySelector(selector);
 
+// Converts an array of note objects into a formatted text string for export
 export function formatNotesAsText(notes) {
   if (!Array.isArray(notes) || notes.length === 0) {
     return "(No notes to export)";
@@ -31,6 +32,7 @@ export function formatNotesAsText(notes) {
     .join("\n");
 }
 
+// Exports all notes as a downloadable text file
 export function exportNotes(notes) {
   const text = formatNotesAsText(notes);
   const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
@@ -44,6 +46,7 @@ export function exportNotes(notes) {
   URL.revokeObjectURL(url);
 }
 
+// Sets up event listeners for import/export functionality
 export function wireImportExport(notes) {
   $("#export")?.addEventListener("click", () => exportNotes(notes));
 }

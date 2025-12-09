@@ -1,5 +1,6 @@
 const $ = (selector) => document.querySelector(selector);
 
+// Inserts HTML content at the current cursor position in the content editable area
 export function insertHtmlAtCursor(html) {
   const contentEl = $("#content");
   if (!contentEl) return;
@@ -15,12 +16,14 @@ export function insertHtmlAtCursor(html) {
   range.deleteContents();
   const fragment = range.createContextualFragment(html);
   range.insertNode(fragment);
-}//check this
+} 
 
+// Sets up all formatting toolbar buttons and their corresponding actions
 export function wireFormattingToolbar() {
   const contentEl = $("#content");
   if (!contentEl) return;
 
+  // Applies the specified formatting command to the selected text
   function applyFormat(command) {
     contentEl.focus();
     try {

@@ -3,12 +3,14 @@ import { renderActiveNote, renderNotesList } from "./renderer.js";
 
 const $ = (selector) => document.querySelector(selector);
 
+// Reads and returns all tags currently displayed in the UI
 export function readTagsFromUI() {
   const tagsContainer = $("#tags");
   if (!tagsContainer) return [];
   return Array.from(tagsContainer.querySelectorAll(".chip.small")).map((el) => el.textContent.trim());
 }
 
+// Adds a new tag to the currently active note if it doesn't already exist
 export function addTagToActiveNote(notes, activeNoteId, tag, activeUser) {
   const trimmed = tag.trim();
   if (!trimmed) return;
@@ -24,6 +26,7 @@ export function addTagToActiveNote(notes, activeNoteId, tag, activeUser) {
   return false;
 }
 
+// Removes a specific tag from the currently active note
 export function removeTagFromActiveNote(notes, activeNoteId, tag, activeUser, callbacks) {
   const note = notes.find((n) => n.id === activeNoteId);
   if (!note || !note.tags) return;
@@ -34,6 +37,7 @@ export function removeTagFromActiveNote(notes, activeNoteId, tag, activeUser, ca
   callbacks.renderNotesList();
 }
 
+// Saves the current state of the active note including title, content, and tags
 export function handleSaveNote(notes, activeNoteId, activeUser, getActiveFilter, callbacks) {
   const note = notes.find((n) => n.id === activeNoteId);
   if (!note) return;
@@ -54,6 +58,7 @@ export function handleSaveNote(notes, activeNoteId, activeUser, getActiveFilter,
   callbacks.renderNotesList();
 }
 
+// Creates a new note with optional initial tags and folder assignment
 export function handleNewNote(notes, activeUser, getActiveFilter, getSelectedDate, callbacks, activeFolderId) {
   const activeFilter = getActiveFilter();
   const initialTags = activeFilter && activeFilter !== "all" ? [activeFilter] : [];
@@ -71,6 +76,7 @@ export function handleNewNote(notes, activeUser, getActiveFilter, getSelectedDat
   callbacks.setActiveNote(newNote.id);
 }
 
+// Handles deletion of the active note, or clears it if it's the last note
 export function handleDeleteNote(notes, activeNoteId, activeUser, callbacks) {
   if (!activeNoteId) return;
   if (notes.length === 1) {
@@ -94,6 +100,7 @@ export function handleDeleteNote(notes, activeNoteId, activeUser, callbacks) {
   callbacks.setActiveNote(nextActiveId);
 }
 
+// Creates a copy of the active note with a new ID and current timestamp
 export function handleDuplicateNote(notes, activeNoteId, activeUser, callbacks) {
   const note = notes.find((n) => n.id === activeNoteId);
   if (!note) return;
