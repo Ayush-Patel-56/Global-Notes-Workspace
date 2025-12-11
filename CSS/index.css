@@ -719,7 +719,8 @@ body {
   --note-theme-accent: #2563eb;
 }
 
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="classic-blue"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="classic-blue"] {
   --note-theme-bg: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
   --note-theme-border: #60a5fa;
   --note-theme-text: #e0f2fe;
@@ -734,7 +735,8 @@ body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="
   --note-theme-accent: #a855f7;
 }
 
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="elegant-purple"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="elegant-purple"] {
   --note-theme-bg: linear-gradient(135deg, #581c87 0%, #6b21a8 100%);
   --note-theme-border: #c084fc;
   --note-theme-text: #f3e8ff;
@@ -749,7 +751,8 @@ body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="
   --note-theme-accent: #22c55e;
 }
 
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="forest-green"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="forest-green"] {
   --note-theme-bg: linear-gradient(135deg, #14532d 0%, #166534 100%);
   --note-theme-border: #86efac;
   --note-theme-text: #dcfce7;
@@ -764,7 +767,8 @@ body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="
   --note-theme-accent: #f97316;
 }
 
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="sunset-orange"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="sunset-orange"] {
   --note-theme-bg: linear-gradient(135deg, #7c2d12 0%, #9a3412 100%);
   --note-theme-border: #fdba74;
   --note-theme-text: #ffedd5;
@@ -779,7 +783,8 @@ body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="
   --note-theme-accent: #14b8a6;
 }
 
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="ocean-teal"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="ocean-teal"] {
   --note-theme-bg: linear-gradient(135deg, #134e4a 0%, #115e59 100%);
   --note-theme-border: #5eead4;
   --note-theme-text: #ccfbf1;
@@ -794,7 +799,8 @@ body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="
   --note-theme-accent: #ec4899;
 }
 
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="rose-gold"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="rose-gold"] {
   --note-theme-bg: linear-gradient(135deg, #831843 0%, #9f1239 100%);
   --note-theme-border: #f9a8d4;
   --note-theme-text: #fce7f3;
@@ -809,7 +815,8 @@ body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="
   --note-theme-accent: #64748b;
 }
 
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="slate-gray"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="slate-gray"] {
   --note-theme-bg: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   --note-theme-border: #cbd5e1;
   --note-theme-text: #f1f5f9;
@@ -824,67 +831,40 @@ body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="
   --note-theme-accent: #ef4444;
 }
 
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="crimson-red"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="crimson-red"] {
   --note-theme-bg: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
   --note-theme-border: #fca5a5;
   --note-theme-text: #fee2e2;
   --note-theme-accent: #dc2626;
 }
 
-/* Theme: AMOLED Dark */
-.note-card[data-theme="amoled-dark"] {
-  --note-theme-bg: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-  --note-theme-border: #333333;
-  --note-theme-text: #e0e0e0;
-  --note-theme-accent: #4a4a4a;
-}
-
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="amoled-dark"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="amoled-dark"] {
   --note-theme-bg: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
   --note-theme-border: #1a1a1a;
   --note-theme-text: #ffffff;
   --note-theme-accent: #2a2a2a;
 }
 
-/* Theme: Sepia */
-.note-card[data-theme="sepia"] {
-  --note-theme-bg: linear-gradient(135deg, #f4ecd8 0%, #e9dcc3 100%);
-  --note-theme-border: #a67c52;
-  --note-theme-text: #5c4a3a;
-  --note-theme-accent: #8b6f47;
-}
-
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="sepia"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="sepia"] {
   --note-theme-bg: linear-gradient(135deg, #3d3020 0%, #2a2010 100%);
   --note-theme-border: #8b6f47;
   --note-theme-text: #f4ecd8;
   --note-theme-accent: #a67c52;
 }
 
-/* Theme: Solarized */
-.note-card[data-theme="solarized"] {
-  --note-theme-bg: linear-gradient(135deg, #fdf6e3 0%, #eee8d5 100%);
-  --note-theme-border: #93a1a1;
-  --note-theme-text: #657b83;
-  --note-theme-accent: #268bd2;
-}
-
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="solarized"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="solarized"] {
   --note-theme-bg: linear-gradient(135deg, #002b36 0%, #073642 100%);
   --note-theme-border: #586e75;
   --note-theme-text: #839496;
   --note-theme-accent: #268bd2;
 }
 
-/* Theme: Minimal White */
-.note-card[data-theme="minimal-white"] {
-  --note-theme-bg: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-  --note-theme-border: #e0e0e0;
-  --note-theme-text: #212121;
-  --note-theme-accent: #757575;
-}
-
-body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="minimal-white"] {
+body[data-theme="amoled-dark"],
+body[data-theme="sepia"] .note-card[data-theme="minimal-white"] {
   --note-theme-bg: linear-gradient(135deg, #2c2c2c 0%, #1e1e1e 100%);
   --note-theme-border: #424242;
   --note-theme-text: #f5f5f5;
@@ -1034,6 +1014,57 @@ body[data-theme="amoled-dark"], body[data-theme="sepia"] .note-card[data-theme="
 .content-input::placeholder {
   color: var(--text-muted);
 }
+
+/* ===== Editor Background Patterns ===== */
+/* Plain - default, no pattern */
+.content-input[data-pattern="plain"] {
+  background: var(--surface-2);
+}
+
+.content-input[data-pattern="plain"]:focus {
+  background: var(--surface);
+}
+
+/* Lined - horizontal lines like notebook paper */
+.content-input[data-pattern="lined"] {
+  background-image:
+    repeating-linear-gradient(transparent,
+      transparent 25.5px,
+      var(--border) 25.5px,
+      var(--border) 27px);
+  background-color: var(--surface-2);
+  line-height: 27px;
+}
+
+.content-input[data-pattern="lined"]:focus {
+  background-color: var(--surface);
+}
+
+/* Grid - grid pattern for structured notes */
+.content-input[data-pattern="grid"] {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: var(--surface-2);
+}
+
+.content-input[data-pattern="grid"]:focus {
+  background-color: var(--surface);
+}
+
+/* Dotted - dot grid pattern for bullet journaling */
+.content-input[data-pattern="dotted"] {
+  background-image:
+    radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: var(--surface-2);
+}
+
+.content-input[data-pattern="dotted"]:focus {
+  background-color: var(--surface);
+}
+
 
 /* ===== Images in notes ===== */
 .note-image {

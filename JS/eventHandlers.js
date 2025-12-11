@@ -182,3 +182,29 @@ export function syncThemeSelector(activeNote) {
 
   themeSelect.value = activeNote.theme || "classic-blue";
 }
+
+// Handles editor pattern selector dropdown for changing text area background
+export function wireEditorPatternSelector(state, callbacks) {
+  const patternSelect = $("#editor-pattern");
+  if (!patternSelect) return;
+
+  patternSelect.addEventListener("change", () => {
+    const selectedPattern = patternSelect.value;
+    const note = state.notes.find((n) => n.id === state.activeNoteId);
+
+    if (note) {
+      note.editorPattern = selectedPattern;
+      note.updatedAt = new Date().toISOString();
+      callbacks.persistNotes();
+      callbacks.renderActiveNote();
+    }
+  });
+}
+
+// Updates the editor pattern selector to match the current note's pattern
+export function syncEditorPatternSelector(activeNote) {
+  const patternSelect = $("#editor-pattern");
+  if (!patternSelect || !activeNote) return;
+
+  patternSelect.value = activeNote.editorPattern || "plain";
+}

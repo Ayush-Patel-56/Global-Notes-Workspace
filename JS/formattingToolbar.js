@@ -33,19 +33,61 @@ export function wireFormattingToolbar() {
     }
   }
 
-  $("#format-bold")?.addEventListener("click", () => applyFormat("bold"));
-  $("#format-italic")?.addEventListener("click", () => applyFormat("italic"));
-  $("#format-underline")?.addEventListener("click", () => applyFormat("underline"));
-  $("#format-bullet")?.addEventListener("click", () => applyFormat("insertUnorderedList"));
+  // Format dropdown (Bold, Italic, Underline, Bullet List)
+  const formatSelect = $("#format-action");
+  if (formatSelect) {
+    formatSelect.addEventListener("change", (e) => {
+      const action = e.target.value;
+      if (!action) return;
 
-  // Undo/redo controls
-  $("#edit-undo")?.addEventListener("click", () => applyFormat("undo"));
-  $("#edit-redo")?.addEventListener("click", () => applyFormat("redo"));
+      switch (action) {
+        case "bold":
+          applyFormat("bold");
+          break;
+        case "italic":
+          applyFormat("italic");
+          break;
+        case "underline":
+          applyFormat("underline");
+          break;
+        case "bullet":
+          applyFormat("insertUnorderedList");
+          break;
+      }
 
-  // Clipboard controls
-  $("#edit-cut")?.addEventListener("click", () => applyFormat("cut"));
-  $("#edit-copy")?.addEventListener("click", () => applyFormat("copy"));
-  $("#edit-paste")?.addEventListener("click", () => applyFormat("paste"));
+      // Reset dropdown to default
+      setTimeout(() => {
+        e.target.value = "";
+      }, 100);
+    });
+  }
+
+  // Edit dropdown (Cut, Copy, Paste)
+  const editSelect = $("#edit-action");
+  if (editSelect) {
+    editSelect.addEventListener("change", (e) => {
+      const action = e.target.value;
+      if (!action) return;
+
+      switch (action) {
+        case "cut":
+          applyFormat("cut");
+          break;
+        case "copy":
+          applyFormat("copy");
+          break;
+        case "paste":
+          applyFormat("paste");
+          break;
+      }
+
+      // Reset dropdown to default
+      setTimeout(() => {
+        e.target.value = "";
+      }, 100);
+    });
+  }
+
 
   // Print current note (only the note content)
   $("#print-note")?.addEventListener("click", () => {

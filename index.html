@@ -202,21 +202,31 @@
             <option value="slate-gray">Slate Gray</option>
             <option value="crimson-red">Crimson Red</option>
           </select>
-          <button class="btn tiny" type="button" id="format-bold"><strong>B</strong></button>
-          <button class="btn tiny" type="button" id="format-italic"><em>I</em></button>
-          <button class="btn tiny" type="button" id="format-underline"><span
-              style="text-decoration: underline;">U</span></button>
-          <button class="btn tiny" type="button" id="format-bullet">• List</button>
-          <button class="btn tiny" type="button" id="edit-cut" aria-label="Cut"><span
-              aria-hidden="true">✂️</span></button>
-          <button class="btn tiny" type="button" id="edit-copy" aria-label="Copy"><span
-              aria-hidden="true">📄</span></button>
-          <button class="btn tiny" type="button" id="edit-paste" aria-label="Paste"><span
-              aria-hidden="true">📋</span></button>
-          <button class="btn tiny" type="button" id="insert-image" aria-label="Insert image"><span
-              aria-hidden="true">🖼</span></button>
-          <button class="btn tiny" type="button" id="insert-table" aria-label="Insert table"><span
-              aria-hidden="true">▦</span></button>
+          <label for="editor-pattern" class="text-size-label">Background:</label>
+          <select id="editor-pattern" class="select tiny" aria-label="Editor background pattern">
+            <option value="plain">Plain</option>
+            <option value="lined">Lined</option>
+            <option value="grid">Grid</option>
+            <option value="dotted">Dotted</option>
+          </select>
+          <select id="format-action" class="select tiny" aria-label="Text formatting">
+            <option value="">Format</option>
+            <option value="bold">Bold</option>
+            <option value="italic">Italic</option>
+            <option value="underline">Underline</option>
+            <option value="bullet">Bullet List</option>
+          </select>
+          <select id="edit-action" class="select tiny" aria-label="Edit actions">
+            <option value="">Edit</option>
+            <option value="cut">Cut</option>
+            <option value="copy">Copy</option>
+            <option value="paste">Paste</option>
+          </select>
+          <select id="insert-action" class="select tiny" aria-label="Insert content">
+            <option value="">Insert</option>
+            <option value="image">Image</option>
+            <option value="table">Table</option>
+          </select>
         </div>
         <input type="file" id="image-upload-input" accept="image/*" />
         <div class="content-input" id="content" contenteditable="true" spellcheck="true"

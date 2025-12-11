@@ -8,14 +8,38 @@ export function wireUploadButtons() {
   const contentEl = $("#content");
   if (!contentEl) return;
 
-  const imageBtn = $("#insert-image");
   const imageInput = $("#image-upload-input");
-  if (imageBtn && imageInput) {
-    imageBtn.addEventListener("click", () => {
-      imageInput.value = "";
-      imageInput.click();
-    });
 
+  // Insert dropdown handler (Image, Table)
+  const insertSelect = $("#insert-action");
+  if (insertSelect) {
+    insertSelect.addEventListener("change", (e) => {
+      const action = e.target.value;
+      if (!action) return;
+
+      switch (action) {
+        case "image":
+          // Trigger file upload
+          if (imageInput) {
+            imageInput.value = "";
+            imageInput.click();
+          }
+          break;
+        case "table":
+          // Insert table
+          insertTable();
+          break;
+      }
+
+      // Reset dropdown to default
+      setTimeout(() => {
+        e.target.value = "";
+      }, 100);
+    });
+  }
+
+  // Image upload handling
+  if (imageInput) {
     imageInput.addEventListener("change", () => {
       const file = imageInput.files && imageInput.files[0];
       if (!file) return;
@@ -32,28 +56,27 @@ export function wireUploadButtons() {
     });
   }
 
-  const tableBtn = $("#insert-table");
-  if (tableBtn) {
-    tableBtn.addEventListener("click", () => {
-      let rows = parseInt(prompt("Number of rows?", "3"), 10);
-      let cols = parseInt(prompt("Number of columns?", "3"), 10);
-      if (!Number.isFinite(rows) || rows <= 0) rows = 2;
-      if (!Number.isFinite(cols) || cols <= 0) cols = 2;
+  // Table insertion helper function
+  function insertTable() {
+    let rows = parseInt(prompt("Number of rows?", "3"), 10);
+    let cols = parseInt(prompt("Number of columns?", "3"), 10);
+    if (!Number.isFinite(rows) || rows <= 0) rows = 2;
+    if (!Number.isFinite(cols) || cols <= 0) cols = 2;
 
-      const tableRowsHtml = Array.from({ length: rows })
-        .map((_, rowIndex) => {
-          const cellTag = rowIndex === 0 ? "th" : "td";
-          const cellsHtml = Array.from({ length: cols })
-            .map(() => `<${cellTag}>&nbsp;</${cellTag}>`)
-            .join("");
-          return `<tr>${cellsHtml}</tr>`;
-        })
-        .join("");
+    const tableRowsHtml = Array.from({ length: rows })
+      .map((_, rowIndex) => {
+        const cellTag = rowIndex === 0 ? "th" : "td";
+        const cellsHtml = Array.from({ length: cols })
+          .map(() => `<${cellTag}>&nbsp;</${cellTag}>`)
+          .join("");
+        return `<tr>${cellsHtml}</tr>`;
+      })
+      .join("");
 
-      const tableHtml = `<table class="note-table note-table-striped"><tbody>${tableRowsHtml}</tbody></table>`;
-      insertHtmlAtCursor(tableHtml);
-    });
+    const tableHtml = `<table class="note-table note-table-striped"><tbody>${tableRowsHtml}</tbody></table>`;
+    insertHtmlAtCursor(tableHtml);
   }
+
 
   // Image and table interaction handlers
   contentEl.addEventListener("click", (event) => {

@@ -10,6 +10,7 @@ export function createNote(partial = {}) {
     tags: Array.isArray(partial.tags) ? partial.tags : [],
     folderId: partial.folderId || null, // Add folder association
     theme: partial.theme || "classic-blue", // Default theme
+    editorPattern: partial.editorPattern || "plain", // Default editor pattern
     createdAt: partial.createdAt || now,
     updatedAt: partial.updatedAt || now,
   };

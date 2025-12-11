@@ -92,13 +92,20 @@ export function renderActiveNote(note, removeTagFromActiveNote) {
 
   if (!note) {
     if (titleInput) titleInput.value = "";
-    if (contentInput) contentInput.value = "";
+    if (contentInput) {
+      contentInput.innerHTML = "";
+      contentInput.removeAttribute("data-pattern");
+    }
     if (tagsContainer) tagsContainer.innerHTML = "";
     return;
   }
 
   if (titleInput) titleInput.value = note.title || "";
-  if (contentInput) contentInput.innerHTML = note.content || "";
+  if (contentInput) {
+    contentInput.innerHTML = note.content || "";
+    // Apply editor pattern
+    contentInput.setAttribute("data-pattern", note.editorPattern || "plain");
+  }
 
   if (tagsContainer) {
     tagsContainer.innerHTML = "";

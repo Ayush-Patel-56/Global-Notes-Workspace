@@ -3,7 +3,7 @@ import { getActiveUser } from "./storage.js";
 import { loadNotesForCurrentUser, ensureAtLeastOneNote, persistNotes } from "./noteManager.js";
 import { getFolders, saveFolders } from "./folderManager.js";
 import { renderNotesList, renderActiveNote, updateUserDisplay, renderFolders } from "./renderer.js";
-import { wireFiltersAndSearch, wireSort, wireTagInput, wireCrudButtons, wireFolderButtons, wireThemeSelector, syncThemeSelector } from "./eventHandlers.js";
+import { wireFiltersAndSearch, wireSort, wireTagInput, wireCrudButtons, wireFolderButtons, wireThemeSelector, syncThemeSelector, wireEditorPatternSelector, syncEditorPatternSelector } from "./eventHandlers.js";
 import { wireFormattingToolbar } from "./formattingToolbar.js";
 import { wireUploadButtons } from "./mediaManager.js";
 import { wireAuthButtons } from "./authButtons.js";
@@ -29,6 +29,8 @@ function setActiveNote(noteId) {
   callbacks.renderActiveNote();
   // Sync theme selector with active note's theme
   syncThemeSelector(note);
+  // Sync editor pattern selector with active note's pattern
+  syncEditorPatternSelector(note);
 }
 
 const callbacks = {
@@ -86,6 +88,7 @@ async function initApp() {
   wireImportExport(state.notes);
   wireThemeToggle();
   wireThemeSelector(state, callbacks);
+  wireEditorPatternSelector(state, callbacks);
 
   // Initial UI render
   callbacks.updateUserDisplay();
