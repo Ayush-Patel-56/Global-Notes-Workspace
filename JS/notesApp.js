@@ -102,7 +102,7 @@ async function initApp() {
   wireUploadButtons();
   wireAuthButtons(state, callbacks);
   wireImportExport(state);
-  wireAIAssistant();
+  wireAIAssistant(state, callbacks);
 
   wireThemeToggle();
   wireThemeSelector(state, callbacks);
@@ -128,5 +128,3 @@ if (document.readyState === "loading") {
 } else {
   initApp();
 }
-
-

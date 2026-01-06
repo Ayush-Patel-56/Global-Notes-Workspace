@@ -97,53 +97,31 @@ function wireMailFeatureHandlers(sendBtn, senderInput, recipientInput, promptInp
             return;
         }
 
-        // Some email clients have limits on mailto link length (around 2000-8000 chars)
-        // Truncate body if needed, but keep it reasonable
+        // Truncate body if needed for URL length limits
         let finalBody = body;
         const maxBodyLength = 2000; // Conservative limit
         if (body.length > maxBodyLength) {
             finalBody = body.substring(0, maxBodyLength) + '\n\n[Email body truncated due to length limits]';
         }
 
-        // Open Mail Client with generated email
-        // Note: recipient should be URL encoded if it contains special characters
-        // But typically email addresses don't need encoding in mailto:
-        const encodedRecipient = recipient; // Keep as-is, mailto: handles standard emails
-        const mailtoLink = `mailto:${encodedRecipient}?subject=${encodeURIComponent(
-            subject
-        )}&body=${encodeURIComponent(finalBody)}`;
+        // Construct Gmail URL
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(finalBody)}`;
 
-        console.log('Generated mailto link:', mailtoLink.substring(0, 100) + '...');
-        console.log('Subject:', subject);
-        console.log('Body length:', finalBody.length);
+        console.log('Generated Gmail URL:', gmailUrl.substring(0, 150) + '...');
 
-        // Open mail client
+        // Open Gmail in a new tab
         try {
-            // Create a temporary anchor element and click it (more reliable than location.href)
-            const link = document.createElement('a');
-            link.href = mailtoLink;
-            link.style.display = 'none';
-            link.setAttribute('target', '_blank');
-            document.body.appendChild(link);
-            link.click();
-            
-            // Remove link after a short delay
+            window.open(gmailUrl, '_blank');
+
+            // Small delay before clearing to ensure new tab opens
             setTimeout(() => {
-                if (document.body.contains(link)) {
-                    document.body.removeChild(link);
-                }
-            }, 100);
-            
-            // Small delay before clearing to ensure mail client opens
-            setTimeout(() => {
-                // Clear inputs after opening mail client
                 senderInput.value = "";
                 recipientInput.value = "";
                 promptInput.value = "";
             }, 200);
         } catch (e) {
-            console.error('Error opening mailto link:', e);
-            alert('Unable to open email client. Please check your email settings.');
+            console.error('Error opening Gmail:', e);
+            alert('Unable to open Gmail. Please check your browser\'s pop-up blocker settings.');
         }
     });
 }

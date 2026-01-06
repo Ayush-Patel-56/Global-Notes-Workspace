@@ -1,4 +1,7 @@
-export function wireAIAssistant() {
+
+import { generateTextWithGemini } from './geminiAPI.js';
+
+export function wireAIAssistant(state, callbacks) {
     const generateBtn = document.getElementById("ai-sidebar-generate");
     const promptInput = document.getElementById("ai-sidebar-prompt");
     const contentEditor = document.getElementById("content");
@@ -68,12 +71,14 @@ export function wireAIAssistant() {
         promptInput.disabled = true;
 
         try {
-            const text = await mockAIGenerate(prompt);
+            // Call the real Gemini API
+            const text = await generateTextWithGemini(prompt);
             insertTextAtCursor(text);
             promptInput.value = ""; // Clear after success
         } catch (err) {
             console.error("AI Generation failed", err);
-            alert("Failed to generate text. Please try again.");
+            // The error from generateTextWithGemini is already user-friendly
+            alert("Failed to generate text. Please check the console for details.");
         } finally {
             // Reset UI
             generateBtn.textContent = originalText;
@@ -86,33 +91,32 @@ export function wireAIAssistant() {
         if (!contentEditor) return;
         contentEditor.focus();
 
-        // Create a new paragraph or simple text node
+        // A single newline should be a line break, more should be paragraphs.
+        const paragraphs = text.split('\n').filter(p => p.trim() !== '');
+        
+        // Using execCommand for broader compatibility, with a fallback.
         try {
-            document.execCommand('insertText', false, text);
+            if (paragraphs.length <= 1) {
+                 document.execCommand('insertText', false, text);
+            } else {
+                 document.execCommand('insertHTML', false, paragraphs.join('<br>'));
+            }
         } catch (e) {
-            // Fallback for modern browsers or if execCommand fails
+            console.warn("execCommand is not supported. Falling back to range manipulation.");
             const selection = window.getSelection();
             if (!selection.rangeCount) return;
 
             const range = selection.getRangeAt(0);
             range.deleteContents();
-            range.insertNode(document.createTextNode(text));
+            
+            const fragment = document.createDocumentFragment();
+            paragraphs.forEach((p, index) => {
+                fragment.appendChild(document.createTextNode(p));
+                if (index < paragraphs.length - 1) {
+                    fragment.appendChild(document.createElement('br'));
+                }
+            });
+            range.insertNode(fragment);
         }
     }
-
-    // Mock API Call
-    function mockAIGenerate(prompt) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(`
-[AI Draft]: ${prompt}
-
-Here is a generated response based on your request. 
-(This is a mock AI response. In a real app, this would call an LLM API.)
-        `.trim());
-            }, 1500); // 1.5s delay to feel "real"
-        });
-    }
 }
-
-
