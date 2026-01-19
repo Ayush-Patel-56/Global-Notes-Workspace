@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Global Notes</string>
+    <string name="title_activity_main">Global Notes</string>
+    <string name="package_name">com.globalnotes.app</string>
+    <string name="custom_url_scheme">com.globalnotes.app</string>
+</resources>

@@ -1,0 +1,18 @@
+{
+  "name": "ojt-2025-persistent-notes-workspace-with-search-tags",
+  "version": "1.0.0",
+  "description": "Because they lack a central location to store, arrange, and conveniently retrieve notes, people frequently misplace or forget crucial information. By developing a persistent, searchable workspace that enables users to tag, edit, and store notes indefinitely, this project addresses that issue.",
+  "main": "sw.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/android": "^8.0.1",
+    "@capacitor/cli": "^7.4.5",
+    "@capacitor/core": "^8.0.1",
+    "@capacitor/ios": "^8.0.1"
+  }
+}
