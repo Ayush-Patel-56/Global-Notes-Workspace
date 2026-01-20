@@ -28,8 +28,12 @@ export class SketchPad {
     this.reset();
   }
 
+  getCanvasColor() {
+    return getComputedStyle(document.body).getPropertyValue('--surface').trim();
+  }
+
   reset() {
-    this.ctx.fillStyle = '#ffffff';
+    this.ctx.fillStyle = this.getCanvasColor();
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.lineJoin = 'round';
     this.ctx.lineCap = 'round';
@@ -38,7 +42,7 @@ export class SketchPad {
 
   updateBrush() {
     this.ctx.lineWidth = this.sizeInput.value;
-    this.ctx.strokeStyle = this.mode === 'eraser' ? '#ffffff' : this.colorInput.value;
+    this.ctx.strokeStyle = this.mode === 'eraser' ? this.getCanvasColor() : this.colorInput.value;
   }
 
   setupEvents() {
