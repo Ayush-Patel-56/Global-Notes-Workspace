@@ -51,21 +51,9 @@ export function wireSort(callbacks) {
 }
 
 // Manages tag input field for adding new tags to the active note
+// DEPRECATED: Replaced by tagManager.js
 export function wireTagInput(state, callbacks) {
-  const addTagInput = $("#add-tag");
-  if (!addTagInput) return;
-  addTagInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      const value = addTagInput.value.replace(",", "").trim();
-      if (value) {
-        addTagToActiveNote(state.notes, state.activeNoteId, value, state.activeUser, callbacks);
-        callbacks.renderActiveNote();
-        callbacks.renderNotesList();
-      }
-      addTagInput.value = "";
-    }
-  });
+  // Functionality moved to Tag Manager
 }
 
 // Connects all CRUD (Create, Read, Update, Delete) buttons to their respective handlers

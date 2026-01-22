@@ -224,3 +224,34 @@ export function getAccountDetails(username) {
 }
 
 
+
+/**
+ * Retrieves custom tags for a specific user
+ * @param {string|null} user 
+ * @returns {Array} Array of custom tag objects {name, color, description}
+ */
+export function getCustomTags(user) {
+  try {
+    const key = `${storageKeyForUser(user)}.tags`;
+    const raw = localStorage.getItem(key);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Saves custom tags for a specific user
+ * @param {string|null} user 
+ * @param {Array} tags 
+ */
+export function saveCustomTags(user, tags) {
+  try {
+    const key = `${storageKeyForUser(user)}.tags`;
+    localStorage.setItem(key, JSON.stringify(tags));
+  } catch (err) {
+    console.error("Failed to save custom tags", err);
+  }
+}

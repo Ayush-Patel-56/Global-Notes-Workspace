@@ -12,7 +12,21 @@ const TAG_COLORS = {
 // Returns a color associated with a tag, or a default color if none is defined
 export function getTagColor(tag) {
   if (!tag) return "#0f1526";
-  return TAG_COLORS[tag.toLowerCase()] || "#4f6b95";
+  // Check case-insensitive
+  const lowerTag = tag.toLowerCase();
+  if (TAG_COLORS[lowerTag]) {
+    return TAG_COLORS[lowerTag];
+  }
+  return "#4f6b95"; // Default fallback
+}
+
+// Registers a set of custom tags with their colors
+export function registerCustomTags(customTags) {
+  customTags.forEach(tag => {
+    if (tag.name && tag.color) {
+      TAG_COLORS[tag.name.toLowerCase()] = tag.color;
+    }
+  });
 }
 
 // ========================================
