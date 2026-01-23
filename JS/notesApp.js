@@ -1,5 +1,5 @@
 
-import { getActiveUser } from "./storage.js";
+import { getActiveUser, setActiveUser } from "./storage.js";
 import { loadNotesForCurrentUser, ensureAtLeastOneNote, persistNotes } from "./noteManager.js";
 import { getFolders, saveFolders } from "./folderManager.js";
 import { renderNotesList, renderActiveNote, updateUserDisplay, renderFolders } from "./renderer.js";
@@ -19,6 +19,7 @@ import { wireMailFeature } from "./mailFeature.js";
 import { wireShareFeature, checkSharedUrl } from "./shareFeature.js";
 import { wireShapeManager } from "./shapeManager.js";
 import { wireTagManager } from "./tagManager.js";
+import { getSession } from "./authService.js";
 
 
 // Global state
@@ -67,13 +68,13 @@ const callbacks = {
     updateHeaderAvatar(state.activeUser);
   },
   // Saves all notes to storage
-  persistNotes: () => {
-    persistNotes(state.activeUser, state.notes);
+  persistNotes: async () => {
+    await persistNotes(state.activeUser, state.notes);
     state.calendarWidget?.render(); // Update calendar indicators
   },
   // Loads notes and folders for the current user, ensuring at least one note exists
   loadNotesForCurrentUser: async () => {
-    state.notes = loadNotesForCurrentUser(state.activeUser);
+    state.notes = await loadNotesForCurrentUser(state.activeUser);
     state.folders = getFolders(state.activeUser);
     await ensureAtLeastOneNote(state.notes, state.activeUser);
     if (!state.activeNoteId && state.notes.length) {
@@ -84,14 +85,18 @@ const callbacks = {
 
 // Initializes the application by setting up state, loading data, and wiring up event handlers
 async function initApp() {
-  // PRIORITY 1: Check if this is a shared URL and exit if so
-  // This prevents the main app from loading and conflicting with the shared view
-  if (checkSharedUrl()) {
-    return;
-  }
-
   // Load user session
-  state.activeUser = getActiveUser();
+  // Check Supabase session first (especially after OAuth redirect)
+  const session = await getSession();
+  if (session?.user) {
+    // If Supabase has a user, ensure it's set as active (syncs to localStorage)
+    const username = session.user.user_metadata?.username || session.user.email;
+    setActiveUser(username);
+    state.activeUser = username;
+  } else {
+    // Fallback to local storage (e.g. if offline or guest)
+    state.activeUser = getActiveUser();
+  }
 
   // Load notes for current user
   await callbacks.loadNotesForCurrentUser();
@@ -133,6 +138,9 @@ async function initApp() {
   callbacks.renderFolders();
   callbacks.renderNotesList();
   callbacks.renderActiveNote();
+
+  // Check for shared URL params LAST (User's preferred flow)
+  checkSharedUrl();
 }
 
 // Redirect 0.0.0.0 to localhost to avoid "Not Secure" warning on desktop

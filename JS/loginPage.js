@@ -1,4 +1,5 @@
-import { getAccounts, setActiveUser, mergeGuestNotes } from "./storage.js";
+import { setActiveUser, mergeGuestNotes } from "./storage.js";
+import { signIn } from "./authService.js";
 
 // Initializes the login form with validation and user authentication logic
 export function initLoginForm({
@@ -9,32 +10,43 @@ export function initLoginForm({
   const form = document.getElementById(formId);
   if (!form) return;
 
-  form.addEventListener("submit", (e) => {
+  // Update label to say "Email" instead of Username (Runtime fix)
+  const userLabel = form.querySelector('label[for="username"]');
+  if (userLabel) userLabel.textContent = "Email";
+  const userInput = document.getElementById("username");
+  if (userInput) userInput.placeholder = "Enter your email";
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    const username = usernameInput?.value.trim() || "";
-    const password = passwordInput?.value || "";
+    const email = document.getElementById("username")?.value.trim();
+    const password = document.getElementById("password")?.value;
 
-    const accounts = getAccounts();
-    const account = accounts.find((a) => a.username.toLowerCase() === username.toLowerCase());
-    if (!account) {
-      setMessage("Account not found. Create one below.", "error");
-      toggleView("signup");
-      return;
-    }
-    if (account.password !== password) {
-      setMessage("Incorrect password. Try again.", "error");
+    if (!email || !password) {
+      setMessage("Please enter email and password.", "error");
       return;
     }
 
-    mergeGuestNotes(account.username);
-    setActiveUser(account.username);
-    setMessage("Success! Redirecting…", "success");
-    setTimeout(() => {
-      window.location.href = "../index.html";
-    }, 400);
+    try {
+      setMessage("Logging in...", "info");
+      const { user, session } = await signIn(email, password);
+
+      // Success
+      // Merge notes (if we had a way to map guest notes to cloud, currently mergeGuestNotes uses localstorage)
+      // We might want to "upload" guest notes here?
+      // For now, let's just set active user.
+
+      // Use metadata username if available, else email
+      const displayUser = user.user_metadata?.username || user.email;
+      setActiveUser(displayUser);
+
+      setMessage("Success! Redirecting...", "success");
+      setTimeout(() => {
+        window.location.href = "../index.html";
+      }, 400);
+
+    } catch (error) {
+      console.error("Login Error:", error);
+      setMessage(error.message || "Login failed.", "error");
+    }
   });
 }
-
-//aneek

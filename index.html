@@ -578,42 +578,29 @@
         <button class="btn-icon close-modal">×</button>
       </div>
       <div class="share-body"
-        style="display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px;">
-        <div id="qrcode-container" style="background: white; padding: 10px; border-radius: 8px;"></div>
-        <p style="text-align: center; color: var(--text-muted); font-size: 0.9em;">Scan this QR code or copy the link
-          below to share this note.</p>
-        <div class="share-config" style="width: 100%; margin-bottom: 10px;">
-          <label for="share-host-ip"
-            style="display: block; font-size: 0.85em; color: var(--text-dim); margin-bottom: 4px;">Server IP (for mobile
-            scan):</label>
-          <input type="text" id="share-host-ip"
-            style="width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text);"
-            placeholder="e.g. 192.168.x.x">
+        style="display: flex; flex-direction: column; align-items: stretch; gap: 15px; padding: 25px;">
 
-          <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;">
-            <input type="checkbox" id="share-compact-mode">
-            <label for="share-compact-mode" style="font-size: 0.85em; color: var(--text); cursor: pointer;">
-              Use Compact Link (Removes user/branding info)
-            </label>
-          </div>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 5px;">
+          Share this note directly as text via:
+        </p>
 
-          <details style="margin-top: 8px; font-size: 0.8em; color: var(--text-muted);">
-            <summary style="cursor: pointer; font-weight: 500;">⚠️ Troubleshooting & Tips (Read if stuck)</summary>
-            <ul style="margin: 8px 0 0 16px; padding: 0;">
-              <li><strong>QR Code missing?</strong> Your note might be too long. Use the <b>Copy Link</b> button
-                instead—it always works!</li>
-              <li><strong>"Corrupted" error?</strong> The mobile device might not have loaded the library yet. Refresh
-                the page on your phone.</li>
-              <li><strong>Mobile won't connect?</strong> Ensure your phone and computer are on the same Wi-Fi.</li>
-              <li><strong>Still failing?</strong> Verify the "Server IP" matches your computer's IP address.</li>
-            </ul>
-          </details>
-        </div>
-        <div class="share-link-wrapper" style="width: 100%; display: flex; gap: 8px;">
-          <input type="text" id="share-link-input" readonly
-            style="flex: 1; padding: 8px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary);">
-          <button class="btn primary" id="copy-share-link">Copy Link</button>
-        </div>
+        <a id="share-whatsapp" href="#" target="_blank" class="btn full-width"
+          style="background-color: #25D366; color: white; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border: none;">
+          <span style="font-size: 1.2em;">💬</span> Share on WhatsApp
+        </a>
+
+        <a id="share-email" href="#" class="btn full-width"
+          style="background-color: #EA4335; color: white; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border: none;">
+          <span style="font-size: 1.2em;">✉️</span> Share via Email
+        </a>
+
+        <div style="height: 1px; background: var(--border); margin: 5px 0;"></div>
+
+        <button id="share-copy-text" class="btn secondary full-width"
+          style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+          <span style="font-size: 1.2em;">📋</span> Copy Text to Clipboard
+        </button>
+
       </div>
       <div class="modal-footer">
         <button class="btn secondary close-modal">Close</button>

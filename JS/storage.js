@@ -1,74 +1,93 @@
-// ========================================
-// IMPORTS - Load configuration constants
-// ========================================
-// Import storage key constants from constants.js:
-// - NOTES_STORAGE_PREFIX: Base prefix for all note storage keys
-// - ACTIVE_USER_KEY: Key for storing currently logged-in user
-// - ACCOUNT_KEY: Key for storing array of user accounts
 import { NOTES_STORAGE_PREFIX, ACTIVE_USER_KEY, ACCOUNT_KEY } from "./constants.js";
+import * as db from "./supabaseStorage.js";
+import { supabase } from "./supabaseClient.js";
 
-// ========================================
-// STORAGE KEY MANAGEMENT
-// ========================================
-/**
- * Generates a unique localStorage key for a user's notes
- * - Combines NOTES_STORAGE_PREFIX with username
- * - Uses "guest" as username if no user provided (for anonymous users)
- * - Format: "NOTES_STORAGE_PREFIX.username" or "NOTES_STORAGE_PREFIX.guest"
- * @param {string|null} user - Username or null for guest
- * @returns {string} Unique storage key for this user's notes
- */
+// ... (storageKeyForUser remains same, but I need to keep the file content valid)
+
 export function storageKeyForUser(user) {
-  // If user is null/undefined, use "guest" as the username
-  // This allows anonymous users to have their own note storage
   return `${NOTES_STORAGE_PREFIX}.${user || "guest"}`;
 }
 
 /**
- * Retrieves all notes for a specific user from localStorage
- * - Generates storage key using storageKeyForUser()
- * - Attempts to retrieve and parse JSON data
- * - Validates that retrieved data is an array (defensive programming)
- * - Returns empty array if key doesn't exist, is invalid JSON, or is not an array
- * - Silently catches errors to prevent crashes (graceful degradation)
- * @param {string|null} user - Username to retrieve notes for
- * @returns {Array} Array of note objects, or empty array if none found/error occurs
+ * Retrieves all notes.
+ * HYBRID: If authenticated, fetches from Supabase. Else LocalStorage.
  */
-export function getNotes(user) {
+export async function getNotes(user) {
   try {
-    // Retrieve the raw JSON string from localStorage using the user's unique key
+    // Check for Supabase session
+    const session = await supabase.auth.getSession();
+    const currentUser = session?.data?.session?.user;
+
+    // If user matches logged-in Supabase user, fetch from Cloud
+    if (currentUser && user !== 'guest' && user === currentUser.email) {
+      console.log("Fetching notes from Supabase...");
+      const dbNotes = await db.fetchNotes();
+      // Map DB (snake_case) to App (camelCase)
+      return dbNotes.map(n => ({
+        id: n.id,
+        title: n.title,
+        content: n.content,
+        tags: n.tags || [],
+        folderId: n.folder_id,
+        theme: n.theme,
+        editorPattern: n.editor_pattern,
+        createdAt: n.created_at,
+        updatedAt: n.updated_at
+      }));
+    }
+
+    // Fallback to LocalStorage (Guest or Offline)
     const raw = localStorage.getItem(storageKeyForUser(user));
-    // If key doesn't exist, return empty array (no notes yet)
     if (!raw) return [];
-    // Parse JSON string back into JavaScript object/array
     const parsed = JSON.parse(raw);
-    // Validate that parsed data is actually an array (not an object or other type)
-    // This prevents errors if corrupted data is stored
     return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    // Catch any errors: missing key, invalid JSON, parse errors, localStorage unavailable
-    // Return empty array to allow app to continue functioning
+  } catch (e) {
+    console.error("Error getting notes:", e);
     return [];
   }
 }
 
 /**
- * Saves notes array to localStorage for a specific user
- * - Generates storage key using storageKeyForUser()
- * - Converts notes array to JSON string
- * - Stores in localStorage
- * - Logs error if save fails but doesn't throw (non-blocking)
- * @param {string|null} user - Username to save notes for
- * @param {Array} notes - Array of note objects to persist
+ * Saves notes.
+ * HYBRID: If authenticated, Syncs to Supabase. Else LocalStorage.
+ * Note: 'notes' is the full array. For Supabase, we upsert them all.
  */
-export function setNotes(user, notes) {
+export async function setNotes(user, notes) {
   try {
-    // Convert notes array to JSON string and store in localStorage
-    // Uses user-specific key so each user has separate note storage
+    const session = await supabase.auth.getSession();
+    const currentUser = session?.data?.session?.user;
+
+    // If authenticated, sync to cloud
+    if (currentUser && user !== 'guest') {
+      // We upsert all notes in the array
+      // Ideally we only save CHANGED notes, but for this migration: save all.
+      /* 
+         Optimization: supabase upsert can take an array!
+         ensure keys match (snake_case vs camelCase).
+         Our notes are camelCase (folderId), DB is folder_id.
+         We need a mapper.
+      */
+      const dbNotes = notes.map(n => ({
+        id: n.id,
+        user_id: currentUser.id,
+        title: n.title,
+        content: n.content,
+        tags: n.tags,
+        folder_id: n.folderId, // map to snake_case
+        theme: n.theme,
+        editor_pattern: n.editorPattern,
+        created_at: n.createdAt,
+        updated_at: n.updatedAt
+      }));
+
+      await supabase.from('notes').upsert(dbNotes);
+      console.log("Synced notes to Supabase");
+      return;
+    }
+
+    // Fallback to LocalStorage
     localStorage.setItem(storageKeyForUser(user), JSON.stringify(notes));
   } catch (err) {
-    // Log error if storage fails (quota exceeded, localStorage disabled, etc.)
-    // but don't throw - app should continue to function in memory
     console.error("Failed to save notes", err);
   }
 }

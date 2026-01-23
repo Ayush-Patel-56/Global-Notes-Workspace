@@ -63,6 +63,13 @@ export function wireCrudButtons(state, getActiveFilter, callbacks) {
   });
 
   $("#save-note")?.addEventListener("click", () => {
+    if (!state.activeUser) {
+      const shouldLogin = confirm("You need to be logged in to save notes. Would you like to log in now?");
+      if (shouldLogin) {
+        window.location.href = "./HTML/signup.html";
+      }
+      return;
+    }
     handleSaveNote(state.notes, state.activeNoteId, state.activeUser, getActiveFilter, callbacks);
   });
 

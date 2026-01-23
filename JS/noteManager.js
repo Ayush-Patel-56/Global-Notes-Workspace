@@ -26,8 +26,8 @@ export function createFolder(name) {
 }
 
 // Saves the notes array to storage for the specified user
-export function persistNotes(activeUser, notes) {
-  setNotes(activeUser, notes);
+export async function persistNotes(activeUser, notes) {
+  await setNotes(activeUser, notes);
 }
 
 // Ensures there's at least one note by creating a welcome note if none exist
@@ -41,12 +41,12 @@ export async function ensureAtLeastOneNote(notes, activeUser) {
       tags: ["ideas"],
     });
     notes.push(initial);
-    persistNotes(activeUser, notes);
+    await persistNotes(activeUser, notes);
   }
   return notes;
 }
 
 // Retrieves all notes for the currently active user
-export function loadNotesForCurrentUser(activeUser) {
-  return getStoredNotes(activeUser);
+export async function loadNotesForCurrentUser(activeUser) {
+  return await getStoredNotes(activeUser);
 }
