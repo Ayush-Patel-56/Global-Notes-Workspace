@@ -1,4 +1,3 @@
-
 import { getActiveUser, setActiveUser } from "./storage.js";
 import { loadNotesForCurrentUser, ensureAtLeastOneNote, persistNotes } from "./noteManager.js";
 import { getFolders, saveFolders } from "./folderManager.js";

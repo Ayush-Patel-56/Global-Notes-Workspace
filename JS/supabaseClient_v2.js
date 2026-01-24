@@ -9,6 +9,6 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Optional: Log to verify init
-console.log("Supabase Client Initialized via Global");
+console.log("Supabase Client Initialized via Global (v2)");
 
 export { supabase };

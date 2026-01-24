@@ -8,9 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="CSS/index.css?v=9" />
+  <link rel="stylesheet" href="CSS/index.css?v=10" />
   <link rel="stylesheet" href="CSS/tagManager.css" />
   <link rel="manifest" href="/manifest.json">
+  <script>
+    // Force Redirect from 0.0.0.0 to localhost to ensure Secure Context
+    if (window.location.hostname === '0.0.0.0') {
+      window.location.hostname = 'localhost';
+    }
+  </script>
 </head>
 
 <body>
@@ -607,9 +613,10 @@
     </div>
   </dialog>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script type="text/javascript" src="JS/vendor/lz-string.min.js"></script>
   <script type="text/javascript" src="JS/vendor/qrcode.min.js"></script>
-  <script type="module" src="JS/notesApp.js?v=1.2"></script>
+  <script type="module" src="JS/notesApp.js?v=2.0"></script>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')

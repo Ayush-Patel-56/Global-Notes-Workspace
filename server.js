@@ -52,6 +52,10 @@ const server = http.createServer((req, res) => {
                 res.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
             }
         } else {
+            // Disable caching for development
+            res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+            res.setHeader('Pragma', 'no-cache');
+            res.setHeader('Expires', '0');
             res.writeHead(200, { 'Content-Type': contentType });
             res.end(content, 'utf-8');
         }

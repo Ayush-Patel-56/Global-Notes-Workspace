@@ -83,7 +83,15 @@
     </div>
   </div>
 
-  <script type="module" src="../JS/authPage.js?v=2.0"></script>
+  <script>
+    // Force Redirect from 0.0.0.0 to localhost to ensure Secure Context
+    if (window.location.hostname === '0.0.0.0') {
+      window.location.hostname = 'localhost';
+    }
+  </script>
+  <!-- Supabase UMD Script (Critical for Auth) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script type="module" src="../JS/authPage.js?v=2.2"></script>
 
   <script>
     // Toggle Logic for Centered Card

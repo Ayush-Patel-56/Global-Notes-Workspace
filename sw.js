@@ -48,6 +48,7 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
   );
+  self.skipWaiting(); // Force activate new SW immediately
 });
 
 self.addEventListener('fetch', event => {
