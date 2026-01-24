@@ -124,8 +124,10 @@ function printNotes(notes) {
         </style>
       </head>
       <body>
-        <h1>My Notes Export</h1>
         ${printContent}
+        <div style="margin-top: 3rem; text-align: center; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 1rem;">
+          Created via Global Notes Workspace
+        </div>
         <script>
           window.onload = () => { window.print(); window.close(); };
         </script>

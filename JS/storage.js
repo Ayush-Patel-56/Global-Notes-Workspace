@@ -8,43 +8,60 @@ export function storageKeyForUser(user) {
   return `${NOTES_STORAGE_PREFIX}.${user || "guest"}`;
 }
 
-/**
- * Retrieves all notes.
- * HYBRID: If authenticated, fetches from Supabase. Else LocalStorage.
- */
 export async function getNotes(user) {
+  let finalNotes = [];
+
   try {
     // Check for Supabase session
     const session = await supabase.auth.getSession();
     const currentUser = session?.data?.session?.user;
 
-    // If user matches logged-in Supabase user, fetch from Cloud
-    if (currentUser && user !== 'guest' && user === currentUser.email) {
-      console.log("Fetching notes from Supabase...");
-      const dbNotes = await db.fetchNotes();
-      // Map DB (snake_case) to App (camelCase)
-      return dbNotes.map(n => ({
-        id: n.id,
-        title: n.title,
-        content: n.content,
-        tags: n.tags || [],
-        folderId: n.folder_id,
-        theme: n.theme,
-        editorPattern: n.editor_pattern,
-        createdAt: n.created_at,
-        updatedAt: n.updated_at
-      }));
+    // 1. Try fetching from Supabase if authenticated
+    if (currentUser && user !== 'guest') {
+      try {
+        console.log("Fetching notes from Supabase...");
+        const dbNotes = await db.fetchNotes();
+        // Map DB (snake_case) to App (camelCase)
+        const cloudNotes = dbNotes.map(n => ({
+          id: n.id,
+          title: n.title,
+          content: n.content,
+          tags: n.tags || [],
+          folderId: n.folder_id,
+          theme: n.theme,
+          editorPattern: n.editor_pattern,
+          createdAt: n.created_at,
+          updatedAt: n.updated_at
+        }));
+
+        if (cloudNotes.length > 0) {
+          finalNotes = cloudNotes;
+        }
+      } catch (err) {
+        console.error("Supabase fetch failed, falling back to local:", err);
+      }
     }
 
-    // Fallback to LocalStorage (Guest or Offline)
-    const raw = localStorage.getItem(storageKeyForUser(user));
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    // 2. If Cloud was empty or failed, check LocalStorage
+    // This handles cases where:
+    // a) User was offline/unauthenticated previously and saved locally
+    // b) Cloud is empty but Local has data (orphaned notes)
+    if (finalNotes.length === 0) {
+      const raw = localStorage.getItem(storageKeyForUser(user));
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          console.log("Using LocalStorage notes (Cloud was empty/unavailable)");
+          finalNotes = parsed;
+        }
+      }
+    }
+
   } catch (e) {
     console.error("Error getting notes:", e);
-    return [];
   }
+
+  return finalNotes;
 }
 
 /**
@@ -54,19 +71,17 @@ export async function getNotes(user) {
  */
 export async function setNotes(user, notes) {
   try {
+    // 1. ALWAYS save to LocalStorage first (Offline-First / Cache)
+    // This ensures that even if Supabase fails or user is offline, data is safe locally.
+    localStorage.setItem(storageKeyForUser(user), JSON.stringify(notes));
+
     const session = await supabase.auth.getSession();
     const currentUser = session?.data?.session?.user;
 
-    // If authenticated, sync to cloud
+    // 2. If authenticated, Sync to Supabase in the background
     if (currentUser && user !== 'guest') {
       // We upsert all notes in the array
       // Ideally we only save CHANGED notes, but for this migration: save all.
-      /* 
-         Optimization: supabase upsert can take an array!
-         ensure keys match (snake_case vs camelCase).
-         Our notes are camelCase (folderId), DB is folder_id.
-         We need a mapper.
-      */
       const dbNotes = notes.map(n => ({
         id: n.id,
         user_id: currentUser.id,
@@ -82,11 +97,7 @@ export async function setNotes(user, notes) {
 
       await supabase.from('notes').upsert(dbNotes);
       console.log("Synced notes to Supabase");
-      return;
     }
-
-    // Fallback to LocalStorage
-    localStorage.setItem(storageKeyForUser(user), JSON.stringify(notes));
   } catch (err) {
     console.error("Failed to save notes", err);
   }

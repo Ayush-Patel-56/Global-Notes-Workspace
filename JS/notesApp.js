@@ -1,4 +1,4 @@
-import { getActiveUser, setActiveUser } from "./storage.js";
+import { getActiveUser, setActiveUser, mergeGuestNotes } from "./storage.js";
 import { loadNotesForCurrentUser, ensureAtLeastOneNote, persistNotes } from "./noteManager.js";
 import { getFolders, saveFolders } from "./folderManager.js";
 import { renderNotesList, renderActiveNote, updateUserDisplay, renderFolders } from "./renderer.js";
@@ -92,6 +92,9 @@ async function initApp() {
     const username = session.user.user_metadata?.username || session.user.email;
     setActiveUser(username);
     state.activeUser = username;
+
+    // Merge any Guest notes that might exist locally
+    mergeGuestNotes(username);
   } else {
     // Fallback to local storage (e.g. if offline or guest)
     state.activeUser = getActiveUser();
