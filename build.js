@@ -18,7 +18,7 @@ function copyRecursiveSync(src, dest) {
     }
 }
 
-const distDir = path.join(__dirname, 'dist');
+const distDir = path.join(__dirname, 'public');
 
 console.log(`Building to ${distDir}...`);
 
