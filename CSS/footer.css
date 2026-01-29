@@ -1,0 +1,33 @@
+/* Global Footer Styles */
+.global-footer {
+    width: 100%;
+    padding: 24px 0;
+    margin-top: auto;
+    background-color: transparent;
+    text-align: center;
+    color: var(--text-muted, #888);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+}
+
+.global-footer p {
+    margin: 4px 0;
+    line-height: 1.5;
+}
+
+/* Ensure body takes full height so footer can be pushed down if using flex column */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Specific adjustments for specific layouts if needed */
+/* For index.html which has a sidebar layout, we might need to adjust */
+@media (min-width: 768px) {
+    body.layout-sidebar .global-footer {
+        padding-left: 280px;
+        /* Offset for sidebar */
+    }
+}
