@@ -23,14 +23,26 @@
   <header class="app-header">
     <div class="header-row">
       <div class="brand">
-        <button class="btn-icon" id="sidebar-toggle" aria-label="Toggle sidebar" style="margin-right: 8px;">☰</button>
+        <button class="btn-icon" id="sidebar-toggle" aria-label="Toggle sidebar" style="margin-right: 8px;">
+          <!-- Menu Icon -->
+          <svg class="icon" viewBox="0 0 24 24">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
         <img src="assets/images/logo.png" alt="Global Notes" class="logo-img">
         <h1>Global Notes Workspace</h1>
       </div>
 
       <div class="search">
-        <input type="search" id="search" class="search-input" placeholder="Search notes by title, text, or tags…"
-          aria-label="Search notes" />
+        <svg class="icon" style="margin-left: 10px; width: 16px; height: 16px; color: var(--text-muted);"
+          viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="search" id="search" class="search-input" placeholder="Search notes…" aria-label="Search notes"
+          style="padding-left: 8px; background-image: none;" />
 
         <!-- Moved Calendar -->
         <div class="date-filter smart-calendar-container" id="search-date-filter">
@@ -82,15 +94,14 @@
         <button class="chip" data-filter="todo">To‑do</button>
       </div>
 
-      <!-- Ad Placeholder (Empty Space) -->
-      <div class="ad-placeholder" style="flex: 1; height: 40px;"></div>
+      <!-- Ad Placeholder Removed -->
 
       <div class="header-tools">
 
 
         <select id="theme-selector" class="select tiny" aria-label="UI Theme">
           <option value="amoled-dark">AMOLED Dark</option>
-          <option value="professional-light">Professional Light</option>
+          <option value="nature-green">Nature Green</option>
           <option value="corporate-gray">Corporate Gray</option>
           <option value="minimal-white">Minimal White</option>
         </select>
@@ -125,8 +136,19 @@
         <!-- Folders Section -->
         <div class="folders-section">
           <div class="folders-header">
-            <h3>📁 Folders</h3>
-            <button id="create-folder" class="btn-icon" title="Create new folder">+</button>
+            <h3>
+              <svg class="icon" style="margin-right: 6px; width: 14px; height: 14px; color: var(--primary);"
+                viewBox="0 0 24 24">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+              Folders
+            </h3>
+            <button id="create-folder" class="btn-icon" title="Create new folder">
+              <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
           </div>
           <ul id="folders-list" class="folders-list">
             <!-- Folders will be rendered here -->
@@ -136,7 +158,17 @@
         <!-- Notes Section -->
         <div class="notes-section">
           <div class="notes-header">
-            <h3>📝 Notes</h3>
+            <h3>
+              <svg class="icon" style="margin-right: 6px; width: 14px; height: 14px; color: var(--primary);"
+                viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Notes
+            </h3>
           </div>
 
           <ul class="notes-list" id="notes-list">
@@ -176,10 +208,17 @@
         <!-- AI Assistant Widget -->
         <div class="ai-sidebar-widget">
           <div class="ai-widget-header">
-            <h3>✨ AI Assistant</h3>
+            <h3>
+              <svg class="icon" style="margin-right: 6px; width: 14px; height: 14px; color: var(--accent);"
+                viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                </path>
+              </svg>
+              AI Assistant
+            </h3>
           </div>
           <div class="ai-input-wrapper">
-            <textarea id="ai-sidebar-prompt" class="ai-widget-input" placeholder="Ask AI to write..."></textarea>
+            <textarea id="ai-sidebar-prompt" class="ai-widget-input" placeholder="Ask AI to write…"></textarea>
 
           </div>
           <button id="ai-sidebar-generate" class="btn primary full-width">Generate</button>
@@ -188,7 +227,14 @@
         <!-- Mail Widget -->
         <div class="ai-sidebar-widget">
           <div class="ai-widget-header">
-            <h3>✉️ Mailing</h3>
+            <h3>
+              <svg class="icon" style="margin-right: 6px; width: 14px; height: 14px; color: var(--primary);"
+                viewBox="0 0 24 24">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              Mailing
+            </h3>
           </div>
           <div class="ai-input-wrapper" style="margin-bottom: 8px;">
             <input type="email" id="sidebar-mail-sender" class="ai-widget-input" placeholder="Your Email"
@@ -200,7 +246,7 @@
           </div>
           <div class="ai-input-wrapper">
             <textarea id="sidebar-mail-prompt" class="ai-widget-input"
-              placeholder="Describe the mail you want to write..."></textarea>
+              placeholder="Describe the mail you want to write…"></textarea>
           </div>
           <button id="sidebar-mail-send" class="btn primary full-width" style="margin-top: 8px;">Done</button>
         </div>
@@ -220,8 +266,12 @@
               <!-- Tags will be injected here -->
             </div>
             <div class="tag-manager-container">
-              <button class="btn-icon circular" id="add-tag-btn" aria-label="Add tag" title="Add tag">
-                <span>+</span>
+              <button class="btn-icon circular" id="add-tag-btn" aria-label="Add tag" title="Add tag"
+                style="width: 28px; height: 28px; border-radius: 50%; border: 1px dashed var(--border);">
+                <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
               </button>
 
               <!-- Tag Menu Popover -->
@@ -246,8 +296,13 @@
             <button class="btn secondary" id="share-note" aria-label="Share note">Share</button>
             <button class="btn" id="duplicate-note">Duplicate</button>
             <button class="btn danger" id="delete-note">Delete</button>
-            <button class="btn primary" id="save-note" aria-label="Save note"><span
-                aria-hidden="true">💾</span></button>
+            <button class="btn primary" id="save-note" aria-label="Save note">
+              <svg class="icon" style="width: 16px; height: 16px; color: white;" viewBox="0 0 24 24">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+            </button>
           </div>
         </div>
       </header>
@@ -256,10 +311,18 @@
         <div class="editor-toolbar" aria-label="Text formatting controls">
           <div class="toolbar-controls">
             <div class="toolbar-group">
-              <button class="btn tiny ghost" id="edit-undo" type="button" aria-label="Undo" title="Undo"><span
-                  aria-hidden="true">↺</span></button>
-              <button class="btn tiny ghost" id="edit-redo" type="button" aria-label="Redo" title="Redo"><span
-                  aria-hidden="true">↻</span></button>
+              <button class="btn tiny ghost" id="edit-undo" type="button" aria-label="Undo" title="Undo">
+                <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24">
+                  <path d="M3 7v6h6"></path>
+                  <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path>
+                </svg>
+              </button>
+              <button class="btn tiny ghost" id="edit-redo" type="button" aria-label="Redo" title="Redo">
+                <svg class="icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24">
+                  <path d="M21 7v6h-6"></path>
+                  <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 4.7"></path>
+                </svg>
+              </button>
             </div>
             <div class="toolbar-group">
               <label for="text-size" class="text-size-label">Size:</label>
@@ -618,8 +681,7 @@
 
   <footer class="global-footer">
     <p>Global Notes Workspace — Organize ideas. Work smarter.</p>
-    <p>A simple, powerful workspace for your thoughts.</p>
-    <p>Designed for productivity. Built with care.</p>
+    <p>A simple, powerful workspace for your thoughts, designed for productivity, built with care.</p>
   </footer>
 
   <link rel="stylesheet" href="CSS/footer.css">

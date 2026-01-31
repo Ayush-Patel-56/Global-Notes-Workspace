@@ -36,16 +36,21 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-body);
   color: var(--text-primary);
-  height: 100vh;
+  min-height: 100vh;
+  /* Allow scrolling */
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Ensure padding prevents edge collision on small screens */
+  padding: 20px 0;
+  overflow-y: auto;
+  /* Force scroll capability */
 }
 
 /* ===== MAIN CARD CONTAINER ===== */
 .auth-container {
   width: 100%;
-  padding: 20px;
+  padding: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,27 +58,28 @@ body {
 
 .main-card {
   width: 100%;
-  max-width: 1000px;
-  min-height: 600px;
+  max-width: 900px;
+  /* Slightly tighter width */
+  min-height: 560px;
   background-color: var(--bg-card);
-  border-radius: 20px;
+  border-radius: 12px;
+  /* Tighter radius */
   display: flex;
   overflow: hidden;
-  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
-  border: 1px solid #333;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  /* Professional shadow */
+  border: 1px solid var(--border-color);
 }
 
 /* ===== LEFT SIDE (BRANDING) ===== */
 .card-left {
   flex: 4;
-  /* 40% width approx */
   background-color: var(--bg-brand);
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
-  /* Remove padding to fit image */
   overflow: hidden;
 }
 
@@ -85,8 +91,8 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  /* Subtle purple gradient overlay mimicking the reference */
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
+  /* Simpler overlay */
   pointer-events: none;
   z-index: 2;
 }
@@ -102,7 +108,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Fit image to box */
   border-radius: 0;
   margin: 0;
   box-shadow: none;
@@ -117,8 +122,7 @@ body {
 /* ===== RIGHT SIDE (FORM) ===== */
 .card-right {
   flex: 5;
-  /* 50-60% width */
-  padding: 50px;
+  padding: 48px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -131,14 +135,17 @@ body {
 }
 
 .form-header h2 {
-  font-size: 2rem;
+  font-size: 24px;
+  /* Refined size */
   font-weight: 600;
   margin-bottom: 8px;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 .toggle-text {
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 14px;
 }
 
 .toggle-text a {
@@ -154,7 +161,7 @@ body {
 /* SOCIAL */
 .social-section {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 24px;
 }
 
@@ -164,30 +171,33 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 12px;
+  padding: 10px;
   background-color: var(--bg-input);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 6px;
   color: var(--text-primary);
-  font-size: 0.9rem;
+  font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .social-btn:hover {
   background-color: #333;
-  border-color: #444;
+  border-color: #555;
 }
 
 .social-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 /* DIVIDER */
 .divider {
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   color: var(--text-tertiary);
   text-align: center;
   margin-bottom: 24px;
@@ -215,11 +225,11 @@ body {
 /* INPUTS */
 .input-row {
   display: flex;
-  gap: 16px;
+  gap: 12px;
 }
 
 .input-group {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   width: 100%;
 }
 
@@ -229,14 +239,14 @@ body {
 
 .auth-form input:not([type="checkbox"]) {
   width: 100%;
-  padding: 14px 16px;
+  padding: 10px 14px;
   background-color: var(--bg-input);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 6px;
+  font-size: 14px;
   color: var(--text-primary);
   outline: none;
-  transition: all 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .auth-form input[type="checkbox"] {
@@ -252,7 +262,9 @@ body {
 
 .auth-form input:focus {
   border-color: var(--border-focus);
-  background-color: #2f2f2f;
+  background-color: var(--bg-input);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  /* Focus ring instead of just border */
 }
 
 .checkbox-group {

@@ -1,7 +1,7 @@
 import { THEME_KEY } from "./constants.js";
 
 const DEFAULT_THEME = "amoled-dark";
-const VALID_THEMES = ["amoled-dark", "professional-light", "corporate-gray", "minimal-white"];
+const VALID_THEMES = ["amoled-dark", "nature-green", "corporate-gray", "minimal-white"];
 
 // Retrieves the user's preferred theme from localStorage or returns the default AMOLED dark theme
 export function getStoredTheme() {
