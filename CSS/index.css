@@ -60,7 +60,7 @@ html[data-theme="amoled-dark"] {
   --spacing-lg: 24px;
   --spacing-xl: 32px;
 
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: 'Inter', "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 
   /* Layout Transitions */
   --transition-fast: 0.15s ease;
@@ -210,6 +210,9 @@ html {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Windows Scrollbar Standard support */
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-muted) transparent;
 }
 
 body {
@@ -2750,7 +2753,8 @@ body[data-theme="corporate-gray"] .editor[data-theme="minimal-white"] {
 
 /* ===== Focus & accessibility ===== */
 :focus-visible {
-  outline: 3px solid var(--focus);
+  outline: 2px solid var(--primary);
+  /* Fallback to primary if focus var missing */
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
