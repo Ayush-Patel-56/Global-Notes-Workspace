@@ -14,6 +14,7 @@ import { wireSidebarToggle, wireToolbarToggle, wireSidebarResize, wireToolTabs }
 import { initSmartCalendar } from "./smartCalendar.js";
 import { wireProfileManager, updateHeaderAvatar } from "./profileManager.js";
 import { wireSlashCommands } from "./slashCommands.js";
+import { handleArchiveNote, handleUnarchiveNote, removeTagFromActiveNote } from "./noteOperations.js";
 import { wireMailFeature } from "./mailFeature.js";
 import { wireShareFeature, checkSharedUrl } from "./shareFeature.js";
 import { wireShapeManager } from "./shapeManager.js";
@@ -46,6 +47,7 @@ function setActiveNote(noteId) {
 }
 
 const callbacks = {
+  get activeNoteId() { return state.activeNoteId; },
   setActiveNote,
 
   setActiveLibraryFilter: (filterType) => {
@@ -87,11 +89,17 @@ const callbacks = {
     }
     // 'recent' is just a sort, handled by the sort dropdown or default logic
 
-    renderNotesList(filteredNotes, state.activeNoteId, setActiveNote, state.activeFolderId);
+    renderNotesList(filteredNotes, state.activeNoteId, setActiveNote, state.activeFolderId, {
+      archiveNote: (id) => handleArchiveNote(state.notes, id, state.activeUser, callbacks),
+      unarchiveNote: (id) => handleUnarchiveNote(state.notes, id, state.activeUser, callbacks)
+    });
     state.calendarWidget?.render();
   },
   // Renders the currently active note in the main editor
-  renderActiveNote: () => renderActiveNote(state.notes.find((n) => n.id === state.activeNoteId), () => { }),
+  renderActiveNote: () => renderActiveNote(
+    state.notes.find((n) => n.id === state.activeNoteId),
+    (tag) => removeTagFromActiveNote(state.notes, state.activeNoteId, tag, state.activeUser, callbacks)
+  ),
   // Renders the folders list in the sidebar
   renderFolders: () => renderFolders(state.folders, state.activeFolderId, callbacks.setActiveFolder),
   // Updates the UI to show the current user's information

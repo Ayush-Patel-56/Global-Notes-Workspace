@@ -6,7 +6,7 @@ const $ = (selector) => document.querySelector(selector);
 const $all = (selector) => Array.from(document.querySelectorAll(selector));
 
 // Renders the list of notes in the sidebar, filtered by folder and search criteria
-export function renderNotesList(notes, activeNoteId, setActiveNote, activeFolderId) {
+export function renderNotesList(notes, activeNoteId, setActiveNote, activeFolderId, noteActions) {
   const listEl = $("#notes-list");
   if (!listEl) return;
   listEl.innerHTML = "";
@@ -91,18 +91,18 @@ export function renderNotesList(notes, activeNoteId, setActiveNote, activeFolder
 
     // Wire Archive/Unarchive buttons
     const archiveBtn = btn.querySelector(".archive-btn");
-    if (archiveBtn) {
+    if (archiveBtn && noteActions) {
       archiveBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        import("./noteOperations.js").then(m => m.handleArchiveNote(notes, note.id, null, { renderNotesList, renderActiveNote, activeNoteId }));
+        noteActions.archiveNote(note.id);
       });
     }
 
     const unarchiveBtn = btn.querySelector(".unarchive-btn");
-    if (unarchiveBtn) {
+    if (unarchiveBtn && noteActions) {
       unarchiveBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        import("./noteOperations.js").then(m => m.handleUnarchiveNote(notes, note.id, null, { renderNotesList, renderActiveNote, activeNoteId }));
+        noteActions.unarchiveNote(note.id);
       });
     }
 
