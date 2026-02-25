@@ -6,7 +6,7 @@ const $ = (selector) => document.querySelector(selector);
 const $all = (selector) => Array.from(document.querySelectorAll(selector));
 
 // Renders the list of notes in the sidebar, filtered by folder and search criteria
-export function renderNotesList(notes, activeNoteId, setActiveNote, activeFolderId) {
+export function renderNotesList(notes, activeNoteId, setActiveNote, activeFolderId, noteActions) {
   const listEl = $("#notes-list");
   if (!listEl) return;
   listEl.innerHTML = "";
@@ -91,18 +91,18 @@ export function renderNotesList(notes, activeNoteId, setActiveNote, activeFolder
 
     // Wire Archive/Unarchive buttons
     const archiveBtn = btn.querySelector(".archive-btn");
-    if (archiveBtn) {
+    if (archiveBtn && noteActions) {
       archiveBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        import("./noteOperations.js").then(m => m.handleArchiveNote(notes, note.id, null, { renderNotesList, renderActiveNote, activeNoteId }));
+        noteActions.archiveNote(note.id);
       });
     }
 
     const unarchiveBtn = btn.querySelector(".unarchive-btn");
-    if (unarchiveBtn) {
+    if (unarchiveBtn && noteActions) {
       unarchiveBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        import("./noteOperations.js").then(m => m.handleUnarchiveNote(notes, note.id, null, { renderNotesList, renderActiveNote, activeNoteId }));
+        noteActions.unarchiveNote(note.id);
       });
     }
 
@@ -152,6 +152,9 @@ export function renderActiveNote(note, removeTagFromActiveNote) {
       favBtn.style.color = ""; // Reset
     }
   }
+
+  // Update Toolbar Metadata
+  updateToolbarMetadata(note);
 
   // Apply editor theme
   if (editorSection) {
@@ -303,7 +306,30 @@ export function updateSidebarSelection(activeFolderId, activeLibraryId) {
     }
   });
 
-  // Actually, standardizing:
   // If activeLibraryId is passed, we highlight that.
   // We assume renderFolders is called separately with the correct ID.
+}
+
+/**
+ * Updates the toolbar metadata (word count, char count, last saved).
+ * @param {Object} note - The current note object.
+ * @param {string} [overrideContent] - Optional DOM content if we want real-time updates without saving yet.
+ */
+export function updateToolbarMetadata(note, overrideContent) {
+  if (!note) return;
+
+  const metadataTime = $("#metadata-time");
+  const metadataCount = $("#metadata-count");
+
+  if (metadataTime) {
+    metadataTime.textContent = `Last edited: ${formatDate(note.updatedAt)}`;
+  }
+
+  if (metadataCount) {
+    const content = overrideContent !== undefined ? overrideContent : (note.content || "");
+    const text = content.replace(/<[^>]*>/g, " ").trim();
+    const wordCount = text ? text.split(/\s+/).length : 0;
+    const charCount = content.replace(/<[^>]*>/g, "").length;
+    metadataCount.textContent = `${wordCount} words / ${charCount} chars`;
+  }
 }
