@@ -5,18 +5,25 @@ title: "[BUG] "
 labels: bug
 ---
 
-## 🐛 Describe the Bug
+### Describe the Bug
 Clear description of the issue.
 
-## 🔁 Steps to Reproduce
+---
+
+### Steps to Reproduce
 1.
 2.
 3.
 
-## 🎯 Expected Behavior
+---
 
-## 📷 Screenshots (if any)
+### Expected Behavior
 
-## 🖥 Environment
-- OS:
-- Browser:
+---
+
+### Current Behavior
+
+---
+
+### Screenshots (if any)
+
