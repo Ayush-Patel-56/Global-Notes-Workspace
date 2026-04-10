@@ -1,21 +1,56 @@
 const $ = (selector) => document.querySelector(selector);
 
-// Inserts HTML content at the current cursor position in the content editable area
+// save the range so it doesnt dissapear when the user clicks off , to select the shape 
+let savedRange = null;
+
+// Call this when user interacts with editor
+export function saveSelection() {
+  const selection = window.getSelection();
+  if (selection && selection.rangeCount > 0) {
+    savedRange = selection.getRangeAt(0);
+  }
+}
+
 export function insertHtmlAtCursor(html) {
   const contentEl = $("#content");
   if (!contentEl) return;
 
   contentEl.focus();
+
   const selection = window.getSelection();
+
+  //  restore cursor position before the user navigates to the shape selection
+  if (savedRange) {
+    selection.removeAllRanges();
+    selection.addRange(savedRange);
+  }
+
+  //  if still no valid selection → append at end
   if (!selection || selection.rangeCount === 0) {
     contentEl.insertAdjacentHTML("beforeend", html);
     return;
   }
 
   const range = selection.getRangeAt(0);
+
+  //  ensure insertion happens inside editor
+  if (!contentEl.contains(range.startContainer)) {
+    contentEl.insertAdjacentHTML("beforeend", html);
+    return;
+  }
+
+  // Proper insertion
   range.deleteContents();
   const fragment = range.createContextualFragment(html);
   range.insertNode(fragment);
+
+  //  Move cursor after inserted content
+  range.collapse(false);
+  selection.removeAllRanges();
+  selection.addRange(range);
+
+  //  Update saved range
+  savedRange = range;
 }
 
 // Sets up all formatting toolbar buttons and their corresponding actions
